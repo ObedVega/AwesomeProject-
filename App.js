@@ -1,10 +1,34 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
+
+async function enviaMensaje(mde, status) {
+	return fetch(`http://localhost:5000/data/alerta`, {
+	  method: 'PUT',
+	  headers: {
+		'Content-Type': 'application/json'
+	  },
+	  body: JSON.stringify({
+      "mdeid":mde,
+      "estado":status
+		})
+	})
+	  .then(data => data.json());
+	  //.then(data => console.log(data));
+   }
+
+const handleSubmit = async (e) => {
+  const res = await enviaMensaje('mde01','false');
+  console.log(res);
+}
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <Button
+        title="Press me"
+        onPress={handleSubmit}
+      />
+      <Text>Hello World!</Text>
       <StatusBar style="auto" />
     </View>
   );
